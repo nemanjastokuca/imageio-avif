@@ -1,0 +1,73 @@
+diff --git a/cmake/Meson/crossfile-apple.meson.in b/cmake/Meson/crossfile-apple.meson.in
+index 800d35b6..7193ce91 100644
+--- a/cmake/Meson/crossfile-apple.meson.in
++++ b/cmake/Meson/crossfile-apple.meson.in
+@@ -1,9 +1,9 @@
+ [binaries]
+-c = ['clang']
+-cpp = ['clang++']
+-ar = ['ar']
+-strip = ['strip']
+-pkg-config = ['pkg-config']
++c = ['xcrun', 'clang']
++cpp = ['xcrun', 'clang++']
++ar = ['xcrun', 'ar']
++strip = ['xcrun', 'strip']
++pkg-config = ['xcrun', 'pkg-config']
+ 
+ [host_machine]
+ system = '@cross_system_name@'
+diff --git a/cmake/Modules/LocalDav1d.cmake b/cmake/Modules/LocalDav1d.cmake
+index 105f0215..13204c99 100644
+--- a/cmake/Modules/LocalDav1d.cmake
++++ b/cmake/Modules/LocalDav1d.cmake
+@@ -2,16 +2,8 @@ set(AVIF_DAV1D_TAG "1.5.1")
+ 
+ function(avif_build_local_dav1d)
+     set(download_step_args)
+-    if(EXISTS "${AVIF_SOURCE_DIR}/ext/dav1d")
+-        message(STATUS "libavif(AVIF_CODEC_DAV1D=LOCAL): ext/dav1d found, using as SOURCE_DIR")
+-        set(source_dir "${AVIF_SOURCE_DIR}/ext/dav1d")
+-    else()
+-        message(STATUS "libavif(AVIF_CODEC_DAV1D=LOCAL): ext/dav1d not found, fetching")
+-        set(source_dir "${FETCHCONTENT_BASE_DIR}/dav1d-src")
+-        list(APPEND download_step_args GIT_REPOSITORY https://code.videolan.org/videolan/dav1d.git GIT_TAG ${AVIF_DAV1D_TAG}
+-             GIT_SHALLOW ON
+-        )
+-    endif()
++    set(source_dir "${AVIF_CODEC_DAV1D_SOURCE_DIR}")
++    message(STATUS "libavif(AVIF_CODEC_DAV1D=LOCAL): using ${AVIF_CODEC_DAV1D_SOURCE_DIR} as SOURCE_DIR")
+ 
+     find_program(NINJA_EXECUTABLE NAMES ninja ninja-build REQUIRED)
+     find_program(MESON_EXECUTABLE meson REQUIRED)
+@@ -40,7 +32,7 @@ function(avif_build_local_dav1d)
+         set(CROSS_FILE "${source_dir}/package/crossfiles/${android_arch}-android.meson")
+     elseif(APPLE)
+         # If we are cross compiling generate the corresponding file to use with meson
+-        if(NOT CMAKE_SYSTEM_PROCESSOR STREQUAL CMAKE_HOST_SYSTEM_PROCESSOR)
++        if(CMAKE_CROSSCOMPILING OR NOT CMAKE_SYSTEM_PROCESSOR STREQUAL CMAKE_HOST_SYSTEM_PROCESSOR)
+             string(TOLOWER "${CMAKE_SYSTEM_NAME}" cross_system_name)
+             if(CMAKE_C_BYTE_ORDER STREQUAL "BIG_ENDIAN")
+                 set(cross_system_endian "big")
+@@ -59,6 +51,12 @@ function(avif_build_local_dav1d)
+             set(CROSS_FILE "${PROJECT_BINARY_DIR}/crossfile-apple.meson")
+             configure_file("cmake/Meson/crossfile-apple.meson.in" "${CROSS_FILE}")
+         endif()
++    elseif(MINGW)
++        if(CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
++            set(CROSS_FILE "${source_dir}/package/crossfiles/x86_64-w64-mingw32.meson")
++        elseif(CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64")
++            set(CROSS_FILE "${source_dir}/package/crossfiles/aarch64-w64-mingw32.meson")
++        endif()
+     endif()
+ 
+     if(CROSS_FILE)
+@@ -87,7 +85,7 @@ function(avif_build_local_dav1d)
+         LIST_SEPARATOR |
+         UPDATE_COMMAND ""
+         CONFIGURE_COMMAND
+-            ${CMAKE_COMMAND} -E env "PATH=${PATH}" ${MESON_EXECUTABLE} setup --buildtype=release --default-library=static
++            ${CMAKE_COMMAND} -E env "PATH=${PATH}" ${MESON_EXECUTABLE} setup --buildtype=minsize --default-library=static
+             --prefix=<INSTALL_DIR> --libdir=lib -Denable_asm=true -Denable_tools=false -Denable_examples=false
+             -Denable_tests=false ${EXTRA_ARGS} <SOURCE_DIR>
+         BUILD_COMMAND ${CMAKE_COMMAND} -E env "PATH=${PATH}" ${NINJA_EXECUTABLE} -C <BINARY_DIR>

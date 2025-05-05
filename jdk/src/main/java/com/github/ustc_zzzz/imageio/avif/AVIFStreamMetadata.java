@@ -26,26 +26,26 @@ public class AVIFStreamMetadata extends IIOMetadata {
         }
         // construct the node
         var root = new IIOMetadataNode(this.nativeMetadataFormatName);
-        root.appendChild(this.createNode("depth", this.decoded.depth()));
+        root.appendChild(this.createNode("Depth", this.decoded.depth()));
         if (this.decoded.yuvFormat() != null) {
-            root.appendChild(this.createNode("yuvFormat", this.decoded.yuvFormat()));
+            root.appendChild(this.createNode("YUVFormat", this.decoded.yuvFormat()));
         }
-        root.appendChild(this.createNode("yuvRangeFull", this.decoded.yuvRangeFull()));
+        root.appendChild(this.createNode("YUVRangeFull", this.decoded.yuvRangeFull()));
         if ("YUV420".equals(this.decoded.yuvFormat())) {
-            root.appendChild(this.createNode("yuvChromaSamplePosition", this.decoded.yuvChromaSamplePosition()));
+            root.appendChild(this.createNode("YUVChromaSamplePosition", this.decoded.yuvChromaSamplePosition()));
         }
-        root.appendChild(this.createNode("colorPrimaries", this.decoded.colorPrimaries()));
-        root.appendChild(this.createNode("transferCharacteristics", this.decoded.transferCharacteristics()));
-        root.appendChild(this.createNode("matrixCoefficients", this.decoded.matrixCoefficients()));
-        root.appendChild(this.createNode("icc", this.decoded.icc()));
-        root.appendChild(this.createNode("exif", this.decoded.exif()));
-        root.appendChild(this.createNode("xmp", this.decoded.xmp()));
-        root.appendChild(this.createNode("alphaPresent", this.decoded.alphaPresent()));
+        root.appendChild(this.createNode("ColorPrimaries", this.decoded.colorPrimaries()));
+        root.appendChild(this.createNode("TransferCharacteristics", this.decoded.transferCharacteristics()));
+        root.appendChild(this.createNode("MatrixCoefficients", this.decoded.matrixCoefficients()));
+        root.appendChild(this.createNode("ICC", this.decoded.icc()));
+        root.appendChild(this.createNode("EXIF", this.decoded.exif()));
+        root.appendChild(this.createNode("XMP", this.decoded.xmp()));
+        root.appendChild(this.createNode("AlphaPresent", this.decoded.alphaPresent()));
         if (this.decoded.alphaPresent()) {
-            root.appendChild(this.createNode("alphaPremultiplied", this.decoded.alphaPremultiplied()));
+            root.appendChild(this.createNode("AlphaPremultiplied", this.decoded.alphaPremultiplied()));
         }
-        root.appendChild(this.createNode("timeScale", this.decoded.timeScale()));
-        root.appendChild(this.createNode("durationInTimescales", this.decoded.durationInTimescales()));
+        root.appendChild(this.createNode("TimeScale", this.decoded.timeScale()));
+        root.appendChild(this.createNode("DurationInTimescales", this.decoded.durationInTimescales()));
         return root;
     }
 

@@ -1,54 +1,67 @@
 package com.github.ustc_zzzz.imageio.avif;
 
 import javax.imageio.ImageTypeSpecifier;
+import javax.imageio.metadata.IIOMetadataFormat;
 import javax.imageio.metadata.IIOMetadataFormatImpl;
 
 public class AVIFStreamMetadataFormat extends IIOMetadataFormatImpl {
-    public AVIFStreamMetadataFormat() {
+    private AVIFStreamMetadataFormat() {
         super(AVIFImageReaderSpi.STREAM_METADATA_FORMAT_NAME, CHILD_POLICY_SOME);
 
-        this.addElement("yuvFormat", AVIFImageReaderSpi.STREAM_METADATA_FORMAT_NAME, CHILD_POLICY_EMPTY);
-        this.addObjectValue("yuvFormat", String.class, false, null);
+        this.addElement("YUVFormat", AVIFImageReaderSpi.STREAM_METADATA_FORMAT_NAME, CHILD_POLICY_EMPTY);
+        this.addObjectValue("YUVFormat", String.class, false, null);
 
-        this.addElement("yuvRangeFull", AVIFImageReaderSpi.STREAM_METADATA_FORMAT_NAME, CHILD_POLICY_EMPTY);
-        this.addObjectValue("yuvRangeFull", boolean.class, true, true);
+        this.addElement("YUVRangeFull", AVIFImageReaderSpi.STREAM_METADATA_FORMAT_NAME, CHILD_POLICY_EMPTY);
+        this.addObjectValue("YUVRangeFull", boolean.class, true, true);
 
-        this.addElement("yuvChromaSamplePosition", AVIFImageReaderSpi.STREAM_METADATA_FORMAT_NAME, CHILD_POLICY_EMPTY);
-        this.addObjectValue("yuvChromaSamplePosition", int.class, false, 0);
+        this.addElement("YUVChromaSamplePosition", AVIFImageReaderSpi.STREAM_METADATA_FORMAT_NAME, CHILD_POLICY_EMPTY);
+        this.addObjectValue("YUVChromaSamplePosition", int.class, false, 0);
 
-        this.addElement("colorPrimaries", AVIFImageReaderSpi.STREAM_METADATA_FORMAT_NAME, CHILD_POLICY_EMPTY);
-        this.addObjectValue("colorPrimaries", int.class, true, 0);
+        this.addElement("ColorPrimaries", AVIFImageReaderSpi.STREAM_METADATA_FORMAT_NAME, CHILD_POLICY_EMPTY);
+        this.addObjectValue("ColorPrimaries", int.class, true, 0);
 
-        this.addElement("transferCharacteristics", AVIFImageReaderSpi.STREAM_METADATA_FORMAT_NAME, CHILD_POLICY_EMPTY);
-        this.addObjectValue("transferCharacteristics", int.class, true, 0);
+        this.addElement("TransferCharacteristics", AVIFImageReaderSpi.STREAM_METADATA_FORMAT_NAME, CHILD_POLICY_EMPTY);
+        this.addObjectValue("TransferCharacteristics", int.class, true, 0);
 
-        this.addElement("matrixCoefficients", AVIFImageReaderSpi.STREAM_METADATA_FORMAT_NAME, CHILD_POLICY_EMPTY);
-        this.addObjectValue("matrixCoefficients", int.class, true, 0);
+        this.addElement("MatrixCoefficients", AVIFImageReaderSpi.STREAM_METADATA_FORMAT_NAME, CHILD_POLICY_EMPTY);
+        this.addObjectValue("MatrixCoefficients", int.class, true, 0);
 
-        this.addElement("icc", AVIFImageReaderSpi.STREAM_METADATA_FORMAT_NAME, CHILD_POLICY_EMPTY);
-        this.addObjectValue("icc", byte.class, 0, Integer.MAX_VALUE);
+        this.addElement("ICC", AVIFImageReaderSpi.STREAM_METADATA_FORMAT_NAME, CHILD_POLICY_EMPTY);
+        this.addObjectValue("ICC", byte.class, 0, Integer.MAX_VALUE);
 
-        this.addElement("exif", AVIFImageReaderSpi.STREAM_METADATA_FORMAT_NAME, CHILD_POLICY_EMPTY);
-        this.addObjectValue("exif", byte.class, 0, Integer.MAX_VALUE);
+        this.addElement("EXIF", AVIFImageReaderSpi.STREAM_METADATA_FORMAT_NAME, CHILD_POLICY_EMPTY);
+        this.addObjectValue("EXIF", byte.class, 0, Integer.MAX_VALUE);
 
-        this.addElement("xmp", AVIFImageReaderSpi.STREAM_METADATA_FORMAT_NAME, CHILD_POLICY_EMPTY);
-        this.addObjectValue("xmp", byte.class, 0, Integer.MAX_VALUE);
+        this.addElement("XMP", AVIFImageReaderSpi.STREAM_METADATA_FORMAT_NAME, CHILD_POLICY_EMPTY);
+        this.addObjectValue("XMP", byte.class, 0, Integer.MAX_VALUE);
 
-        this.addElement("alphaPresent", AVIFImageReaderSpi.STREAM_METADATA_FORMAT_NAME, CHILD_POLICY_EMPTY);
-        this.addObjectValue("alphaPresent", boolean.class, true, false);
+        this.addElement("AlphaPresent", AVIFImageReaderSpi.STREAM_METADATA_FORMAT_NAME, CHILD_POLICY_EMPTY);
+        this.addObjectValue("AlphaPresent", boolean.class, true, false);
 
-        this.addElement("alphaPremultiplied", AVIFImageReaderSpi.STREAM_METADATA_FORMAT_NAME, CHILD_POLICY_EMPTY);
-        this.addObjectValue("alphaPremultiplied", boolean.class, false, false);
+        this.addElement("AlphaPremultiplied", AVIFImageReaderSpi.STREAM_METADATA_FORMAT_NAME, CHILD_POLICY_EMPTY);
+        this.addObjectValue("AlphaPremultiplied", boolean.class, false, false);
 
-        this.addElement("timeScale", AVIFImageReaderSpi.STREAM_METADATA_FORMAT_NAME, CHILD_POLICY_EMPTY);
-        this.addObjectValue("timeScale", long.class, true, 0L);
+        this.addElement("TimeScale", AVIFImageReaderSpi.STREAM_METADATA_FORMAT_NAME, CHILD_POLICY_EMPTY);
+        this.addObjectValue("TimeScale", long.class, true, 0L);
 
-        this.addElement("durationInTimescales", AVIFImageReaderSpi.STREAM_METADATA_FORMAT_NAME, CHILD_POLICY_EMPTY);
-        this.addObjectValue("durationInTimescales", long.class, true, 0L);
+        this.addElement("DurationInTimescales", AVIFImageReaderSpi.STREAM_METADATA_FORMAT_NAME, CHILD_POLICY_EMPTY);
+        this.addObjectValue("DurationInTimescales", long.class, true, 0L);
     }
 
     @Override
     public boolean canNodeAppear(String elementName, ImageTypeSpecifier imageType) {
         return true;
+    }
+
+    public static IIOMetadataFormat getInstance() {
+        return Instance.INSTANCE;
+    }
+
+    private static final class Instance {
+        private static final AVIFStreamMetadataFormat INSTANCE = new AVIFStreamMetadataFormat();
+
+        private Instance() {
+            throw new UnsupportedOperationException("This class is non-instantiable");
+        }
     }
 }

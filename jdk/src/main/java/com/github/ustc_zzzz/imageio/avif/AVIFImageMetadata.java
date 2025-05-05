@@ -28,9 +28,9 @@ public class AVIFImageMetadata extends IIOMetadata {
         }
         // construct the node
         var root = new IIOMetadataNode(this.nativeMetadataFormatName);
-        root.appendChild(this.createNode("depth", this.nativeImage.depth()));
-        root.appendChild(this.createNode("ptsInTimescales", this.nativeImage.ptsInTimescales()));
-        root.appendChild(this.createNode("durationInTimescales", this.nativeImage.durationInTimescales()));
+        root.appendChild(this.createNode("Depth", this.nativeImage.depth()));
+        root.appendChild(this.createNode("PTSInTimescales", this.nativeImage.ptsInTimescales()));
+        root.appendChild(this.createNode("DurationInTimescales", this.nativeImage.durationInTimescales()));
         return root;
     }
 

@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -174,6 +173,17 @@ class TestAVIFImageReader {
                 assertEquals(1L, nativeImage.durationInTimescales());
             }));
         }
+    }
+
+    @Test
+    void testMetadataFormat() {
+        var reader = ImageIO.getImageReadersBySuffix("avif").next();
+        assertInstanceOf(AVIFImageReader.class, reader);
+        var spi = reader.getOriginatingProvider();
+        var streamFormat = spi.getStreamMetadataFormat("ustc_zzzz_imageio_avif_stream_1.0");
+        var imageFormat = spi.getImageMetadataFormat("ustc_zzzz_imageio_avif_image_1.0");
+        assertEquals(AVIFStreamMetadataFormat.getInstance(), streamFormat);
+        assertEquals(AVIFImageMetadataFormat.getInstance(), imageFormat);
     }
 
     @Test

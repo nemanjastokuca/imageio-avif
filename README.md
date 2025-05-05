@@ -59,19 +59,19 @@ $10 ==> com.github.ustc_zzzz.imageio.avif.AVIFImageMetadata@2b80d80f
 jshell> (javax.imageio.metadata.IIOMetadataNode) $10.getAsTree("ustc_zzzz_imageio_avif_image_1.0") // metadata tree
 $11 ==> javax.imageio.metadata.IIOMetadataNode@28864e92
 
-jshell> (javax.imageio.metadata.IIOMetadataNode) $11.getElementsByTagName("depth").item(0) // depth node
+jshell> (javax.imageio.metadata.IIOMetadataNode) $11.getElementsByTagName("Depth").item(0) // depth node
 $12 ==> javax.imageio.metadata.IIOMetadataNode@6833ce2c
 
 jshell> $12.getUserObject() // 8-bit depth image
 $13 ==> 8
 
-jshell> (javax.imageio.metadata.IIOMetadataNode) $11.getElementsByTagName("ptsInTimescales").item(0) // ptsInTimescales node
+jshell> (javax.imageio.metadata.IIOMetadataNode) $11.getElementsByTagName("PTSInTimescales").item(0) // pts in timescales node
 $14 ==> javax.imageio.metadata.IIOMetadataNode@6e3c1e69
 
 jshell> $14.getUserObject() // this image to be shown at tick 0
 $15 ==> 0
 
-jshell> (javax.imageio.metadata.IIOMetadataNode) $11.getElementsByTagName("durationInTimescales").item(0) // durationInTimescales node
+jshell> (javax.imageio.metadata.IIOMetadataNode) $11.getElementsByTagName("DurationInTimescales").item(0) // duration in timescales node
 $16 ==> javax.imageio.metadata.IIOMetadataNode@649d209a
 
 jshell> $16.getUserObject() // this image to be shown for 1 tick
@@ -83,7 +83,7 @@ $18 ==> com.github.ustc_zzzz.imageio.avif.AVIFStreamMetadata@256216b3
 jshell> (javax.imageio.metadata.IIOMetadataNode) $18.getAsTree("ustc_zzzz_imageio_avif_stream_1.0") // metadata tree
 $19 ==> javax.imageio.metadata.IIOMetadataNode@d7b1517
 
-jshell> (javax.imageio.metadata.IIOMetadataNode) $19.getElementsByTagName("timeScale").item(0) // timeScale node
+jshell> (javax.imageio.metadata.IIOMetadataNode) $19.getElementsByTagName("TimeScale").item(0) // time scale node
 $20 ==> javax.imageio.metadata.IIOMetadataNode@23223dd8
 
 jshell> $20.getUserObject() // the time scale is 15Hz (one tick for 1/15 second)

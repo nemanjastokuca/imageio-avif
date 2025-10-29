@@ -1,6 +1,9 @@
+import com.vanniktech.maven.publish.JavaLibrary
+import com.vanniktech.maven.publish.JavadocJar
+
 plugins {
     id("java-library")
-    id("maven-publish")
+    id("com.vanniktech.maven.publish") version "0.34.0"
 }
 
 repositories {
@@ -19,6 +22,7 @@ base {
 
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(17)
+    withSourcesJar()
 }
 
 sourceSets {
@@ -33,40 +37,42 @@ tasks {
         from(rootProject.file("LICENSE.libavif")) { into("META-INF") }
         from(rootProject.file("LICENSE.libdav1d")) { into("META-INF") }
     }
+    named("sourcesJar").configure {
+        dependsOn(project(":native").tasks.build)
+    }
 }
 
-publishing {
-    publications.create<MavenPublication>("jitPack") {
-        version = System.getenv("VERSION") ?: version
-        groupId = System.getenv("GROUP") ?: "com.github.ustc-zzzz"
-        artifactId = System.getenv("ARTIFACT") ?: "avif-imageio-native-reader"
-        pom {
-            name.set("AVIF ImageIO Native Reader")
-            url.set("https://github.com/ustc-zzzz/avif-imageio-native-reader")
-            description.set("A native JNI binding for avif image format, which supports Java imageio service.")
-            licenses {
-                license {
-                    name.set("GNU Lesser General Public License, Version 3.0")
-                    url.set("https://www.gnu.org/licenses/lgpl-3.0.txt")
-                }
-            }
-            developers {
-                developer {
-                    id.set("ustc-zzzz")
-                    name.set("Yanbing Zhao")
-                    email.set("zzzz.mail.ustc@gmail.com")
-                }
-            }
-            issueManagement {
-                system.set("GitHub Issues")
-                url.set("https://github.com/ustc-zzzz/avif-imageio-native-reader/issues")
-            }
-            scm {
-                url.set("https://github.com/ustc-zzzz/avif-imageio-native-reader")
-                connection.set("scm:git:git://github.com/ustc-zzzz/avif-imageio-native-reader.git")
-                developerConnection.set("scm:git:ssh://github.com/ustc-zzzz/avif-imageio-native-reader.git")
+mavenPublishing {
+    coordinates("io.github.nemanjastokuca", "avif-imageio-native-reader", "0.0.1")
+    configure(JavaLibrary(
+        javadocJar = JavadocJar.Javadoc(),
+        sourcesJar = true
+    ))
+    pom {
+        name.set("AVIF ImageIO Native Reader")
+        url.set("https://github.com/nemanjastokuca/imageio-avif")
+        description.set("A native JNI binding for avif image format, which supports Java imageio service.")
+        licenses {
+            license {
+                name.set("GNU Lesser General Public License, Version 3.0")
+                url.set("https://www.gnu.org/licenses/lgpl-3.0.txt")
             }
         }
-        artifact(tasks.jar)
+        developers {
+            developer {
+                id.set("nemanjastokuca")
+                name.set("Nemanja Stokuca")
+                email.set("nemanjastokuca95@gmail.com")
+            }
+        }
+        issueManagement {
+            system.set("GitHub Issues")
+            url.set("https://github.com/nemanjastokuca/imageio-avif/issues")
+        }
+        scm {
+            url.set("https://github.com/nemanjastokuca/imageio-avif")
+            connection.set("scm:git:git://github.com/nemanjastokuca/avif-imageio-native-reader.git")
+            developerConnection.set("scm:git:ssh://github.com/nemanjastokuca/avif-imageio-native-reader.git")
+        }
     }
 }

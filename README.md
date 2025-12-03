@@ -1,24 +1,26 @@
 # AVIF ImageIO Native Reader
 
-[![](https://jitpack.io/v/ustc-zzzz/avif-imageio-native-reader.svg)](https://jitpack.io/#ustc-zzzz/avif-imageio-native-reader)
+[![GitHub release](https://img.shields.io/github/v/release/nemanjastokuca/imageio-avif)](https://github.com/nemanjastokuca/imageio-avif/releases)
+[![License](https://img.shields.io/github/license/nemanjastokuca/imageio-avif)](https://github.com/nemanjastokuca/imageio-avif/blob/main/LICENSE)
 
 A native JNI binding for avif image format, which supports Java imageio service.
 
 This library requires Java 17 or above.
 
 ## Include Dependency
-
+### Gradle
 ```groovy
-// Add it in your root build.gradle at the end of repositories
-allprojects {
-    repositories {
-        maven { url 'https://jitpack.io' }
-    }
-}
-// Add the dependency
 dependencies {
-    implementation 'com.github.ustc-zzzz:avif-imageio-native-reader:master-SNAPSHOT'
+    implementation 'io.github.nemanjastokuca:avif-imageio-native-reader:0.0.1'
 }
+```
+### Maven
+```xml
+<dependency>
+    <groupId>io.github.nemanjastokuca</groupId>
+    <artifactId>avif-imageio-native-reader</artifactId>
+    <version>0.0.1</version>
+</dependency>
 ```
 
 ## Usage

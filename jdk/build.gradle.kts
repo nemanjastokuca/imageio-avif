@@ -43,7 +43,7 @@ tasks {
 }
 
 mavenPublishing {
-    coordinates("io.github.nemanjastokuca", "avif-imageio-native-reader", "0.0.1")
+    coordinates("io.github.nemanjastokuca", "avif-imageio-native-reader", "0.1.0")
     configure(JavaLibrary(
         javadocJar = JavadocJar.Javadoc(),
         sourcesJar = true

@@ -3,7 +3,7 @@ plugins {}
 tasks {
     // build targets
     val buildTargets = listOf(
-        "Linux" to "Amd64",
+        "Linux" to "Amd64", "Linux" to "Arm64",
         "MacOS" to "Amd64", "MacOS" to "Arm64",
         "Windows" to "Amd64", "Windows" to "Arm64",
     )
